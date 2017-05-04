@@ -1,0 +1,7 @@
+E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\bin\Debug\ADV_Logistics_BLL.dll
+E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\bin\Debug\ADV_Logistics_BLL.pdb
+E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\Interop.SAPbobsCOM.dll
+E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\ADV_Logistics_BLL.csproj.ResolveComReference.cache
+E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\ADV_Logistics_BLL.dll
+E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\ADV_Logistics_BLL.pdb
+E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\ADV_Logistics_BLL.csprojResolveAssemblyReference.cache
