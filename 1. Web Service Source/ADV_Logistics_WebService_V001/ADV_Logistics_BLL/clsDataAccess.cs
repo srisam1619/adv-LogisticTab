@@ -9,6 +9,7 @@ using System.Net.Mail;
 using System.Text;
 using System.IO;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace ADV_Logistics_BLL
 {
@@ -878,7 +879,7 @@ namespace ADV_Logistics_BLL
 
                 smtpClient.EnableSsl = true;
 
-                string sSubject = dr["TYPE"].ToString() + " ETA - " + dr["ETADATE"].ToString() + " " + dr["ETATIME"].ToString() + " - " + dr["Customer"].ToString();
+                string sSubject = dr["TYPE"].ToString() + " ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString();
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(sEmailFrom);
                 message.To.Add(new MailAddress(sServiceMailId));
@@ -940,7 +941,7 @@ namespace ADV_Logistics_BLL
 
                 smtpClient.EnableSsl = true;
 
-                string sSubject = "Adventus " + dr["TYPE"].ToString() + "Delivery ETA - " + dr["ETADATE"].ToString() + " " + dr["ETATIME"].ToString() + " - " + dr["Customer"].ToString();
+                string sSubject = "Adventus " + dr["TYPE"].ToString() + "Delivery ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString();
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(sEmailFrom);
                 message.To.Add(new MailAddress(dr["Email"].ToString()));
@@ -1002,7 +1003,7 @@ namespace ADV_Logistics_BLL
 
                 smtpClient.EnableSsl = true;
 
-                string sSubject = "Adventus " + dr["TYPE"].ToString() + "Delivery ETA - " + dr["ETADATE"].ToString() + " " + dr["ETATIME"].ToString() + " - " + dr["Customer"].ToString() + " (Change of ETA Date)";
+                string sSubject = "Adventus " + dr["TYPE"].ToString() + "Delivery ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString() + " (Change of ETA Date)";
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(sEmailFrom);
                 message.To.Add(new MailAddress(dr["Email"].ToString()));
@@ -1108,7 +1109,7 @@ namespace ADV_Logistics_BLL
 
         }
 
-        public string ComposeBody(DataTable oDTCallInfo, DataTable oDTItemInfo,DataTable oDTAdditionalItemInfo, string sSubject, int template)
+        public string ComposeBody(DataTable oDTCallInfo, DataTable oDTItemInfo, DataTable oDTAdditionalItemInfo, string sSubject, int template)
         {
             string sFuncName = string.Empty;
             string stextBody = string.Empty;
@@ -1190,17 +1191,19 @@ namespace ADV_Logistics_BLL
                     {
                         sbMail.Append(sReader.ReadToEnd());
 
+                        string sTimeReplacedinDate = dr["ArrivalDate"].ToString().Split(' ')[0].ToString();
+
                         sbMail.Replace("{RecipientName}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["RecipientName"].ToString()));
                         sbMail.Replace("{DO Number}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["DocNum"].ToString()));
-                        sbMail.Replace("{DO Date}", dr["ArrivalDate"].ToString());
+                        sbMail.Replace("{DO Date}", sTimeReplacedinDate);
                         sbMail.Replace("{DO Time}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["ArrivalTime"].ToString()));
-                        sbMail.Replace("{Delivery Personnel}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["ContactPerson"].ToString()));
+                        sbMail.Replace("{Delivery Personnel}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["DriverName"].ToString()));
                         sbMail.Replace("{Printer Address}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["Address"].ToString()));
                         sbMail.Replace("{Printer Location}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["Department"].ToString()));
                         sbMail.Replace("{Model}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["EquipmentName"].ToString()));
                         sbMail.Replace("{Serial Number}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["SerialNum"].ToString()));
                         sbMail.Replace("{ItemTable}", ComposeItemTableBody1(oDTItemInfo));
-                        sbMail.Replace("{AdditionalItemTable}", ComposeAdditionalItemTableBody(oDTAdditionalItemInfo));
+                        sbMail.Replace("{AdditionalItemTable}", ComposeAdditionalItemTableBody(oDTAdditionalItemInfo, oDTItemInfo));
                     }
 
                 }
@@ -1265,12 +1268,23 @@ namespace ADV_Logistics_BLL
             return stextBody;
         }
 
-        public string ComposeAdditionalItemTableBody(DataTable dtBody)
+        public string ComposeAdditionalItemTableBody(DataTable dtAdditionalItemsBody, DataTable dtItems)
         {
             string sBodyDetail = string.Empty;
             string sBodyDetail1 = string.Empty;
             string sTableFormat = string.Empty;
-            foreach (DataRow item in dtBody.Rows)
+
+            var badValues = new HashSet<Tuple<string, string>>(
+            dtItems.AsEnumerable().
+                        Select(row =>
+                          new Tuple<string, string>(row.Field<string>("ItemCode"), row.Field<string>("ItemName"))));
+
+            var result = dtAdditionalItemsBody.AsEnumerable().
+                                                Where(row => !(badValues.Contains(
+                                                new Tuple<string, string>(row.Field<string>("ItemCode"), row.Field<string>("ItemDescription")))));
+            DataTable dtResult = result.CopyToDataTable();
+
+            foreach (DataRow item in dtResult.Rows)
             {
                 sBodyDetail = "<tr><td>&nbsp;" + item["ItemCode"].ToString() + " </td> " +
                     " <td>&nbsp;" + item["ItemDescription"].ToString() + " </td><td>&nbsp;" + item["Qty"].ToString() + " </td></tr>";

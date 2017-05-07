@@ -7,3 +7,12 @@ E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V0
 E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\obj\Debug\ADV_Logistics_WebService_V001.csproj.ResolveComReference.cache
 E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\obj\Debug\ADV_Logistics_WebService_V001.dll
 E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\obj\Debug\ADV_Logistics_WebService_V001.pdb
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\bin\ADV_Logistics_WebService_V001.dll
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\bin\ADV_Logistics_WebService_V001.pdb
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\bin\ADV_Logistics_BLL.dll
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\bin\ADV_Logistics_BLL.pdb
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\obj\Debug\ADV_Logistics_WebService_V001.csprojResolveAssemblyReference.cache
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\obj\Debug\Interop.SAPbobsCOM.dll
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\obj\Debug\ADV_Logistics_WebService_V001.csproj.ResolveComReference.cache
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\obj\Debug\ADV_Logistics_WebService_V001.dll
+E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_WebService_V001\obj\Debug\ADV_Logistics_WebService_V001.pdb

@@ -1297,6 +1297,7 @@ namespace ADV_Logistics_WebService_V001
             public string Priority { get; set; }
             public string Email { get; set; }
             public string AMPM { get; set; }
+            public string Subject { get; set; }
         }
 
         class CallAssignment_ItemList
