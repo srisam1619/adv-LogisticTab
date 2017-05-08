@@ -1144,7 +1144,7 @@ namespace ADV_Logistics_WebService_V001
             string sFuncName = string.Empty;
             try
             {
-                sFuncName = "UpdateDeliveryOrder()";
+                sFuncName = "UpdateDeliveryOrder_TonerParts()";
                 oLog.WriteToDebugLogFile("Starting Function ", sFuncName);
 
                 Header = "[" + Header + "]";

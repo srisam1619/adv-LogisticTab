@@ -1584,7 +1584,7 @@ namespace ADV_Logistics_BLL
                             sQuery = "UPDATE ODLN SET U_OB_DeliveryDate = '" + item["ArrivalDate"] + "',U_OB_DeliveryTime='" + item["ArrivalTime"] + "'" +
                             " ,U_OB_AdditionalRmk='" + item["Remarks"] + "',U_OB_Priority='" + item["Priority"] + "',u_ob_liftaccess='" + item["LiftAccess"] + "'" +
                             " ,U_OB_DriverName1='" + item["Driver1"] + "',U_OB_DriverName2='" + item["Driver2"] + "'," +
-                            " U_OB_SuppliesPage='" + item["SuppliesPrinted"] + "',U_OB_RecpName='" + item["RecipientName"] + "'" +
+                            " U_OB_SuppliesPage='" + item["SuppliesPrinted"] + "',U_OB_Signatory='" + item["RecipientName"] + "'" +
                             " ,U_OB_RecpEmail ='" + item["RecipientEmail"] + "',U_OB_RecpSignText = '" + item["RecipientSignature"].ToString().Replace(" ", "+").ToString() + "',U_OB_RecpSign = '" + sSignaturePath + "'" +
                             " where DocNum = '" + item["DoNumber"] + "' and DocEntry = '" + item["DocEntry"] + "'";
 
@@ -1608,7 +1608,7 @@ namespace ADV_Logistics_BLL
                                 oLog.WriteToDebugLogFile("Before updating the Item Details", sFuncName);
 
                                 string sQuery = string.Empty;
-                                sQuery = "update DLN1 Set U_OB_LineRemarks = '" + item["Remarks"] + "' ,U_OB_DeliveryStatus = '" + item["DeliveryStatus"] + "', U_OB_DOQty = '" + item["DOQty"] + "'" +
+                                sQuery = "update DLN1 Set U_OB_LineRemarks = '" + item["Remarks"] + "' ,U_OB_TabDelStatus = '" + item["DeliveryStatus"] + "', U_OB_DOQty = '" + item["DOQty"] + "'" +
                                     " where DocEntry = '" + item["DocEntry"] + "' and ItemCode = '" + item["ItemCode"] + "' and Dscription = '" + item["ItemDescription"] + "'" +
                                     " and SerialNum = '" + item["SerialNum"] + "'";
 
@@ -1649,6 +1649,27 @@ namespace ADV_Logistics_BLL
                             }
                         }
                     }
+
+                    // Function to update OSCL.Resolution
+                    oLog.WriteToDebugLogFile("Starting method to update OSCL.Resolution", sFuncName);
+                    string sOSCLUpdateResult = string.Empty;
+                    sOSCLUpdateResult = GenerateResolutionString(dtHeader, dtItems);
+                    if (!sOSCLUpdateResult.Contains("ERROR"))
+                    {
+                        oLog.WriteToDebugLogFile("Before Updating Resolution", sFuncName);
+
+                        string sQuery = string.Empty;
+                        sQuery = "UPDATE OSCL SET resolution = '" + sOSCLUpdateResult + "', [Status] = -1 where callID = '" + dtHeader.Rows[0]["SvcCall"] + "'";
+
+                        oLog.WriteToDebugLogFile("Update OSCL resolution" + sQuery, sFuncName);
+
+                        command.CommandText = sQuery;
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                        command.Dispose();
+                        oLog.WriteToDebugLogFile("After Updating Resolution", sFuncName);
+                    }
                 }
                 if (dtAttachments != null && dtAttachments.Rows.Count > 0)
                 {
@@ -1660,6 +1681,7 @@ namespace ADV_Logistics_BLL
                         oLog.WriteToDebugLogFile("After Adding attachments", sFuncName);
                     }
                 }
+
                 return "SUCCESS";
             }
             catch (Exception ex)
@@ -1669,6 +1691,40 @@ namespace ADV_Logistics_BLL
                 oLog.WriteToErrorLogFile(sErrDesc, sFuncName);
                 return sErrDesc;
             }
+        }
+
+        public string GenerateResolutionString(DataTable dtHeader, DataTable dtItems)
+        {
+            string sFuncName = string.Empty;
+            string sResult = string.Empty;
+            int i = 0;
+            try
+            {
+                sFuncName = "GenerateResolutionString";
+                foreach (DataRow dr in dtItems.Rows)
+                {
+                    if (i == 0)
+                    {
+                        sResult = dtHeader.Rows[0]["DriverName"].ToString() + " " + dr["ItemCode"].ToString() + " " + dr["DeliveryStatus"].ToString()
+                            + dtHeader.Rows[0]["ArrivalDate"].ToString().Split(' ')[0].ToString() + " " + dtHeader.Rows[0]["ArrivalTime"].ToString();
+                        oLog.WriteToDebugLogFile("First Row" + sResult, sFuncName);
+                    }
+                    else
+                    {
+                        sResult = sResult + Environment.NewLine + dtHeader.Rows[0]["DriverName"].ToString() + " " + dr["ItemCode"].ToString() + " " + dr["DeliveryStatus"].ToString()
+                                                  + dtHeader.Rows[0]["ArrivalDate"].ToString().Split(' ')[0].ToString() + " " + dtHeader.Rows[0]["ArrivalTime"].ToString();
+                        oLog.WriteToDebugLogFile("Next Row" + sResult, sFuncName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sErrDesc = ex.Message.ToString();
+                oLog.WriteToDebugLogFile("Completed with ERROR", sFuncName);
+                oLog.WriteToErrorLogFile(sErrDesc, sFuncName);
+                sResult = "ERROR " + sErrDesc;
+            }
+            return sResult;
         }
 
         public string Before(string value, string a)
@@ -1722,7 +1778,7 @@ namespace ADV_Logistics_BLL
             string sSaveAttachmentResult = string.Empty;
             try
             {
-                sFuncName = "UpdateDeliveryOrder()";
+                sFuncName = "UpdateDeliveryOrder_TonerParts()";
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 using (SqlCommand command = connection.CreateCommand())
                 {
@@ -1747,7 +1803,7 @@ namespace ADV_Logistics_BLL
                             sQuery = "UPDATE ODLN SET U_OB_DeliveryDate = '" + item["ArrivalDate"] + "',U_OB_DeliveryTime='" + item["ArrivalTime"] + "'" +
                             " ,U_OB_AdditionalRmk='" + item["Remarks"] + "',U_OB_Priority='" + item["Priority"] + "'" +
                             " ,U_OB_DriverName1='" + item["Driver1"] + "',U_OB_DriverName2='" + item["Driver2"] + "'," +
-                            " U_OB_SuppliesPage='" + item["SuppliesPrinted"] + "',U_OB_RecpName='" + item["RecipientName"] + "'" +
+                            " U_OB_SuppliesPage='" + item["SuppliesPrinted"] + "',U_OB_Signatory ='" + item["RecipientName"] + "'" +
                             " ,U_OB_RecpEmail ='" + item["RecipientEmail"] + "',U_OB_RecpSignText = '" + item["RecipientSignature"].ToString().Replace(" ", "+").ToString() + "',U_OB_RecpSign = '" + sSignaturePath + "'" +
                             " where DocNum = '" + item["DoNumber"] + "' and DocEntry = '" + item["DocEntry"] + "'";
 
@@ -1771,7 +1827,7 @@ namespace ADV_Logistics_BLL
                                 oLog.WriteToDebugLogFile("Before updating the Item Details", sFuncName);
 
                                 string sQuery = string.Empty;
-                                sQuery = "update DLN1 Set U_OB_LineRemarks = '" + item["Remarks"] + "' ,U_OB_DeliveryStatus = '" + item["DeliveryStatus"] + "', U_OB_DOQty = '" + item["DOQty"] + "'" +
+                                sQuery = "update DLN1 Set U_OB_LineRemarks = '" + item["Remarks"] + "' ,U_OB_TabDelStatus = '" + item["DeliveryStatus"] + "', U_OB_DOQty = '" + item["DOQty"] + "'" +
                                     " , U_OB_TonerPercentage = '" + item["TonerPercentage"] + "'" +
                                     " where DocEntry = '" + item["DocEntry"] + "' and ItemCode = '" + item["ItemCode"] + "' and Dscription = '" + item["ItemDescription"] + "'" +
                                     " and SerialNum = '" + item["SerialNum"] + "'";
