@@ -879,7 +879,8 @@ namespace ADV_Logistics_BLL
 
                 smtpClient.EnableSsl = true;
 
-                string sSubject = dr["TYPE"].ToString() + " ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString();
+                //string sSubject = dr["TYPE"].ToString() + " ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString();
+                string sSubject = oDTCallInfo.Rows[0]["Subject"].ToString();
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(sEmailFrom);
                 message.To.Add(new MailAddress(sServiceMailId));
@@ -941,7 +942,8 @@ namespace ADV_Logistics_BLL
 
                 smtpClient.EnableSsl = true;
 
-                string sSubject = "Adventus " + dr["TYPE"].ToString() + "Delivery ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString();
+                //string sSubject = "Adventus " + dr["TYPE"].ToString() + "Delivery ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString();
+                string sSubject = oDTCallInfo.Rows[0]["Subject"].ToString();
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(sEmailFrom);
                 message.To.Add(new MailAddress(dr["Email"].ToString()));
@@ -1003,7 +1005,8 @@ namespace ADV_Logistics_BLL
 
                 smtpClient.EnableSsl = true;
 
-                string sSubject = "Adventus " + dr["TYPE"].ToString() + "Delivery ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString() + " (Change of ETA Date)";
+                //string sSubject = "Adventus " + dr["TYPE"].ToString() + "Delivery ETA - " + dr["ETADATE"].ToString() + " - " + dr["Customer"].ToString() + " (Change of ETA Date)";
+                string sSubject = oDTCallInfo.Rows[0]["Subject"].ToString();
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(sEmailFrom);
                 message.To.Add(new MailAddress(dr["Email"].ToString()));
