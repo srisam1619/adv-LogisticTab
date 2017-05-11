@@ -1285,7 +1285,11 @@ namespace ADV_Logistics_BLL
             var result = dtAdditionalItemsBody.AsEnumerable().
                                                 Where(row => !(badValues.Contains(
                                                 new Tuple<string, string>(row.Field<string>("ItemCode"), row.Field<string>("ItemDescription")))));
-            DataTable dtResult = result.CopyToDataTable();
+            DataTable dtResult = new DataTable();
+            if (result.AsDataView().Count > 0)
+            {
+                dtResult = result.CopyToDataTable();
+            }
 
             foreach (DataRow item in dtResult.Rows)
             {
@@ -1662,7 +1666,7 @@ namespace ADV_Logistics_BLL
                         oLog.WriteToDebugLogFile("Before Updating Resolution", sFuncName);
 
                         string sQuery = string.Empty;
-                        sQuery = "UPDATE OSCL SET resolution = '" + sOSCLUpdateResult + "', [Status] = -1 where callID = '" + dtHeader.Rows[0]["SvcCall"] + "'";
+                        sQuery = "UPDATE OSCL SET resolution = '" + sOSCLUpdateResult + "', [Status] = -1 where callID = '" + dtHeader.Rows[0]["SvcCall"] + "' and calltype <> 1";
 
                         oLog.WriteToDebugLogFile("Update OSCL resolution" + sQuery, sFuncName);
 

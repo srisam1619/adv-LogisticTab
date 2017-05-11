@@ -90,3 +90,4 @@ Invalid column name 'U_FirstEmailSendTime'.
 [03/29/2017 11:00:34 PM][         UpdateDeliveryOrder()] Column 'ItemCondition' does not belong to table .
 [04/07/2017 12:36:57 AM][        SearchCallAssignment()] Could not find stored procedure 'VS_LG_SP030_Web_SearchCallAssignment'.
 [04/07/2017 12:36:58 AM][           GetCallAssignment()] Could not find stored procedure 'VS_LG_SP030_Web_SearchCallAssignment'.
+[11-05-2017 11:45:08 PM][                   ComposeBody] The source contains no DataRows.
