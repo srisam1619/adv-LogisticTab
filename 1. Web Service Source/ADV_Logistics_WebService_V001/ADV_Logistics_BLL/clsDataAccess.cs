@@ -1876,7 +1876,29 @@ namespace ADV_Logistics_BLL
                             }
                         }
                     }
+
+                    // Function to update OSCL.Resolution
+                    oLog.WriteToDebugLogFile("Starting method to update OSCL.Resolution", sFuncName);
+                    string sOSCLUpdateResult = string.Empty;
+                    sOSCLUpdateResult = GenerateResolutionString(dtHeader, dtItems);
+                    if (!sOSCLUpdateResult.Contains("ERROR"))
+                    {
+                        oLog.WriteToDebugLogFile("Before Updating Resolution", sFuncName);
+
+                        string sQuery = string.Empty;
+                        sQuery = "UPDATE OSCL SET resolution = '" + sOSCLUpdateResult + "', [Status] = -1 where callID = '" + dtHeader.Rows[0]["SvcCall"] + "' and calltype <> 1";
+
+                        oLog.WriteToDebugLogFile("Update OSCL resolution" + sQuery, sFuncName);
+
+                        command.CommandText = sQuery;
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                        command.Dispose();
+                        oLog.WriteToDebugLogFile("After Updating Resolution", sFuncName);
+                    }
                 }
+
                 if (dtAttachments != null && dtAttachments.Rows.Count > 0)
                 {
                     if (dtAttachments.Rows[0]["DocNum"].ToString() != string.Empty)
@@ -1898,6 +1920,21 @@ namespace ADV_Logistics_BLL
                     string sEmailResult = SendTonerPartsEmailTemplate(dtHeader, dtItems, dtAdditionalItems, ref sErrDesc);
                     if (sEmailResult == "SUCCESS")
                     {
+                        // Update the email sent date and time after sending the toner parts email 
+                        using (SqlConnection connection = new SqlConnection(ConnectionString))
+                        using (SqlCommand command = connection.CreateCommand())
+                        {
+                            oLog.WriteToDebugLogFile("Before Updating UDF", sFuncName);
+                            string sTime = System.DateTime.Now.TimeOfDay.ToString().Substring(0, 5).Replace(":", "");
+                            command.CommandText = "UPDATE ODLN SET U_OB_DelEmailSentDate = '" + DateTime.Now.Date + "',U_OB_DelEmailSentTime = '" + sTime + "'" +
+                                                  " where DocEntry = " + dr["DocEntry"].ToString() + " and DocNum = " + dr["DocNum"].ToString() + "";
+                            connection.Open();
+                            command.ExecuteNonQuery();
+                            connection.Close();
+                            command.Dispose();
+                            oLog.WriteToDebugLogFile("After Updating UDF", sFuncName);
+                        }
+
                         sReturnResult = "MAILSUCCESS";
                     }
                 }
