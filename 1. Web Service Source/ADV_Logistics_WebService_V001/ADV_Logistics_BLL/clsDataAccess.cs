@@ -1926,7 +1926,7 @@ namespace ADV_Logistics_BLL
                         {
                             oLog.WriteToDebugLogFile("Before Updating UDF", sFuncName);
                             string sTime = System.DateTime.Now.TimeOfDay.ToString().Substring(0, 5).Replace(":", "");
-                            command.CommandText = "UPDATE ODLN SET U_OB_DelEmailSentDate = '" + DateTime.Now.Date + "',U_OB_DelEmailSentTime = '" + sTime + "'" +
+                            command.CommandText = "UPDATE ODLN SET U_DelEmailSentDate = '" + DateTime.Now.Date + "',U_DelEmailSentTime = '" + sTime + "'" +
                                                   " where DocEntry = " + dr["DocEntry"].ToString() + " and DocNum = " + dr["DocNum"].ToString() + "";
                             connection.Open();
                             command.ExecuteNonQuery();
