@@ -1053,6 +1053,7 @@ namespace ADV_Logistics_BLL
         public string SendTonerPartsEmailTemplate(DataTable oDTCallInfo, DataTable oDTItemInfo, DataTable oDTAdditionalItemInfo, ref string sErrDesc)
         {
             string functionReturnValue = string.Empty;
+            string sReceipientEmail = string.Empty;
 
             string sFuncName = "SendTonerPartsEmailTemplate";
 
@@ -1061,6 +1062,7 @@ namespace ADV_Logistics_BLL
                 DataRow dr = oDTCallInfo.Rows[0];
                 oLog.WriteToDebugLogFile("Starting function", sFuncName);
                 oLog.WriteToDebugLogFile("Setting SMTP properties", sFuncName);
+                sReceipientEmail = dr["RecipientEmail"].ToString().Trim();
                 SmtpClient smtpClient = new SmtpClient(sSMTPHost, iSMTPPort);
 
                 smtpClient.UseDefaultCredentials = false;
@@ -1069,12 +1071,16 @@ namespace ADV_Logistics_BLL
                 smtpClient.EnableSsl = true;
 
                 string sSubject = "Adventus DO - " + dr["DocNum"].ToString() + " - Delivery of Consumables/Parts to - " + dr["CustomerName"].ToString() + "";
+                oLog.WriteToDebugLogFile("After Subject", sFuncName);
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(sEmailFrom);
-                message.To.Add(new MailAddress(dr["RecipientEmail"].ToString()));
+                oLog.WriteToDebugLogFile("Before Assigning the TO email " + sReceipientEmail, sFuncName);
+                message.To.Add(new MailAddress(sReceipientEmail));
+                //message.To.Add(new MailAddress("vivekrm60@gmail.com"));
                 message.SubjectEncoding = System.Text.Encoding.UTF8;
                 message.Subject = sSubject;
                 message.BodyEncoding = System.Text.Encoding.UTF8;
+                oLog.WriteToDebugLogFile("Before Body", sFuncName);
                 message.Body = ComposeBody(oDTCallInfo, oDTItemInfo, oDTAdditionalItemInfo, sSubject, 4);
                 message.IsBodyHtml = true;
                 object userState = message;
@@ -1102,7 +1108,7 @@ namespace ADV_Logistics_BLL
 
                 oLog.WriteToDebugLogFile("Function completed with Error", sFuncName);
                 oLog.WriteToErrorLogFile(sErrDesc, sFuncName);
-                oLog.WriteToErrorLogFile("Failed sending email to : " + " " + sServiceMailId, sFuncName);
+                oLog.WriteToErrorLogFile("Failed sending email to : " + " " + sReceipientEmail, sFuncName);
 
             }
             finally
@@ -1789,6 +1795,17 @@ namespace ADV_Logistics_BLL
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 using (SqlCommand command = connection.CreateCommand())
                 {
+
+                    ////Query to take the DocDate and DocDueDate based on docNum
+
+                    //DataSet dsFetch = new DataSet();
+                    //DataRow drFetch = dtHeader.Rows[0];
+                    //SqlDataAdapter adapter = new SqlDataAdapter();
+                    //connection.Open();
+                    //adapter.SelectCommand = new SqlCommand("select IsNull(DocDueDate,'') [value] from ODLN where DocEntry = " + drFetch["DocEntry"].ToString() + " and DocNum = " + drFetch["DocNum"].ToString() + "", connection);
+                    //adapter.Fill(dsFetch);
+                    //connection.Close();
+
                     //connection.BeginTransaction();
                     DataSet ds = Get_BitmapPath(Get_CompanyList(), sCompany);
                     foreach (DataRow item in dtHeader.Rows)
