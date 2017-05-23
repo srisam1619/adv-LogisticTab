@@ -1719,13 +1719,13 @@ namespace ADV_Logistics_BLL
                     if (i == 0)
                     {
                         sResult = dtHeader.Rows[0]["DriverName"].ToString() + " " + dr["ItemCode"].ToString() + " " + dr["DeliveryStatus"].ToString()
-                            + dtHeader.Rows[0]["ArrivalDate"].ToString().Split(' ')[0].ToString() + " " + dtHeader.Rows[0]["ArrivalTime"].ToString();
+                           + " " + dtHeader.Rows[0]["ArrivalDate"].ToString().Split(' ')[0].ToString() + " " + dtHeader.Rows[0]["ArrivalTime"].ToString();
                         oLog.WriteToDebugLogFile("First Row" + sResult, sFuncName);
                     }
                     else
                     {
                         sResult = sResult + Environment.NewLine + dtHeader.Rows[0]["DriverName"].ToString() + " " + dr["ItemCode"].ToString() + " " + dr["DeliveryStatus"].ToString()
-                                                  + dtHeader.Rows[0]["ArrivalDate"].ToString().Split(' ')[0].ToString() + " " + dtHeader.Rows[0]["ArrivalTime"].ToString();
+                                               + " " + dtHeader.Rows[0]["ArrivalDate"].ToString().Split(' ')[0].ToString() + " " + dtHeader.Rows[0]["ArrivalTime"].ToString();
                         oLog.WriteToDebugLogFile("Next Row" + sResult, sFuncName);
                     }
                 }
@@ -1822,6 +1822,8 @@ namespace ADV_Logistics_BLL
                             }
 
                             oLog.WriteToDebugLogFile("Before Updating UDFs", sFuncName);
+
+                            oLog.WriteToDebugLogFile("Arrival Date : " + item["ArrivalDate"].ToString(), sFuncName);
 
                             string sQuery = string.Empty;
                             sQuery = "UPDATE ODLN SET U_OB_DeliveryDate = '" + item["ArrivalDate"] + "',U_OB_DeliveryTime='" + item["ArrivalTime"] + "'" +

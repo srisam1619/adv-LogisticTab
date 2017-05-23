@@ -1044,10 +1044,10 @@ namespace ADV_Logistics_WebService_V001
                 oLog.WriteToDebugLogFile("Getting the Json Input 2 from Mobile  '" + Attachments + "'", sFuncName);
                 oLog.WriteToDebugLogFile("Getting the Json Input 3 from Mobile  '" + Items + "'", sFuncName);
                 oLog.WriteToDebugLogFile("Getting the Json Input 4 from Mobile  '" + AdditionalItems + "'", sFuncName);
-                DataTable dtHeader = JsonStringToDataTable(Header);
-                DataTable dtAttachments = JsonStringToDataTable(Attachments);
-                DataTable dtItems = JsonStringToDataTable(Items);
-                DataTable dtAdditionalItems = JsonStringToDataTable(AdditionalItems);
+                DataTable dtHeader = JsonStringToNewDataTable(Header);
+                DataTable dtAttachments = JsonStringToNewDataTable(Attachments);
+                DataTable dtItems = JsonStringToNewDataTable(Items);
+                DataTable dtAdditionalItems = JsonStringToNewDataTable(AdditionalItems);
 
                 oLog.WriteToDebugLogFile("Before calling the Method UpdateDeliveryOrder() ", sFuncName);
                 string sResult = oDataAccess.UpdateDeliveryOrder(dtHeader, dtAttachments, dtItems, dtAdditionalItems, sCompany);
@@ -1155,10 +1155,10 @@ namespace ADV_Logistics_WebService_V001
                 oLog.WriteToDebugLogFile("Getting the Json Input 2 from Mobile  '" + Attachments + "'", sFuncName);
                 oLog.WriteToDebugLogFile("Getting the Json Input 3 from Mobile  '" + Items + "'", sFuncName);
                 oLog.WriteToDebugLogFile("Getting the Json Input 4 from Mobile  '" + AdditionalItems + "'", sFuncName);
-                DataTable dtHeader = JsonStringToDataTable(Header);
-                DataTable dtAttachments = JsonStringToDataTable(Attachments);
-                DataTable dtItems = JsonStringToDataTable(Items);
-                DataTable dtAdditionalItems = JsonStringToDataTable(AdditionalItems);
+                DataTable dtHeader = JsonStringToNewDataTable(Header);
+                DataTable dtAttachments = JsonStringToNewDataTable(Attachments);
+                DataTable dtItems = JsonStringToNewDataTable(Items);
+                DataTable dtAdditionalItems = JsonStringToNewDataTable(AdditionalItems);
 
                 oLog.WriteToDebugLogFile("Before calling the Method UpdateDeliveryOrder_TonerParts() ", sFuncName);
                 string sResult = oDataAccess.UpdateDeliveryOrder_TonerParts(dtHeader, dtAttachments, dtItems, dtAdditionalItems, sCompany);
