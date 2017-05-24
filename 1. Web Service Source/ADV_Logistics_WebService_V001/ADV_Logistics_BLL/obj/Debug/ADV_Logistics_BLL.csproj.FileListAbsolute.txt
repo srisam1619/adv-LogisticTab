@@ -7,7 +7,6 @@ E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug
 E:\VIVEK\ADV_Logistics\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\ADV_Logistics_BLL.csprojResolveAssemblyReference.cache
 E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\bin\Debug\ADV_Logistics_BLL.dll
 E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\bin\Debug\ADV_Logistics_BLL.pdb
-E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\ADV_Logistics_BLL.csprojResolveAssemblyReference.cache
 E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\Interop.SAPbobsCOM.dll
 E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\ADV_Logistics_BLL.csproj.ResolveComReference.cache
 E:\ADV\LIVE Codes\Logistics\trunk\1. Web Service Source\ADV_Logistics_WebService_V001\ADV_Logistics_BLL\obj\Debug\ADV_Logistics_BLL.dll

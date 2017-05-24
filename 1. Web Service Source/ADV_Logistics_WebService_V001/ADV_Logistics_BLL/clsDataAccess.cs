@@ -1201,7 +1201,10 @@ namespace ADV_Logistics_BLL
                         sbMail.Append(sReader.ReadToEnd());
 
                         string sTimeReplacedinDate = dr["ArrivalDate"].ToString().Split(' ')[0].ToString();
-
+                        if (sTimeReplacedinDate != string.Empty)
+                        {
+                            sTimeReplacedinDate = changeFormat(sTimeReplacedinDate);
+                        }
                         sbMail.Replace("{RecipientName}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["RecipientName"].ToString()));
                         sbMail.Replace("{DO Number}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dr["DocNum"].ToString()));
                         sbMail.Replace("{DO Date}", sTimeReplacedinDate);
@@ -2256,6 +2259,40 @@ namespace ADV_Logistics_BLL
                 return sErrDesc;
             }
 
+        }
+
+        public string changeFormat(string sDate)
+        {
+            string sFuncName = string.Empty;
+            string sFormattedDate = string.Empty;
+            try
+            {
+                sFuncName = "changeFormat()";
+                oLog.WriteToDebugLogFile("Starting Function  ", sFuncName);
+                string sFormattedMonth = string.Empty;
+                oLog.WriteToDebugLogFile("Input Date before Formating " + sDate, sFuncName);
+                string[] sdateSplit = sDate.Split('/');
+
+                if (sdateSplit[0].Length == 1)
+                {
+                    sFormattedMonth = "0" + sdateSplit[0].ToString();
+                }
+                else
+                {
+                    sFormattedMonth = sdateSplit[0].ToString();
+                }
+
+                sFormattedDate = sdateSplit[1].ToString() + "/" + sFormattedMonth + "/" + sdateSplit[2].ToString();
+                oLog.WriteToDebugLogFile("Input Date after Formating " + sFormattedDate, sFuncName);
+                oLog.WriteToDebugLogFile("Completed With Success  ", sFuncName);
+            }
+            catch (Exception ex)
+            {
+                sErrDesc = ex.Message.ToString();
+                oLog.WriteToErrorLogFile(sErrDesc, sFuncName);
+                oLog.WriteToDebugLogFile("Completed With ERROR  ", sFuncName);
+            }
+            return sFormattedDate;
         }
     }
 }
