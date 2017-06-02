@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #map {
+        height: 500px;
+        width: 100%;
+       }
+    </style>
+  </head>
+  <body>
+    
+    <div id="map"></div>
+    <script>
+      function initMap() {
+	  
+	  var http = new XMLHttpRequest();
+					var url = "http://wikipolitic.in/demo/tracking/api.php";
+					var params = "Methord=Getlocation";
+					http.open("POST", url, true);
+					
+					//Send the proper header information along with the request
+					http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					
+					http.onreadystatechange = function() {//Call a function when the state changes.
+						if(http.readyState == 4 && http.status == 200) {
+							console.log(http.responseText);
+							var rjsonData = JSON.parse(http.responseText);
+							var rjson = rjsonData.Data;
+							
+							for (i = 0; i < rjson.length; i++) {  
+							 marker = new google.maps.Marker({
+							  position: new google.maps.LatLng(rjson[i].lat, rjson[i]['log']),
+							  map: map
+							});
+							
+							google.maps.event.addListener(marker, 'click', (function(marker, i) {
+							return function() {
+							  infowindow.setContent(rjson[i]['datetime']);
+							  infowindow.open(map, marker);
+							}
+						  })(marker, i));
+							}
+							
+						}
+					}
+					http.send(params);
+					
+					
+					
+	  
+	  var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+        var icons = {
+          parking: {
+            icon: iconBase + 'parking_lot_maps.png'
+          },
+          library: {
+            icon: iconBase + 'library_maps.png'
+          },
+          info: {
+            icon: 'http://www.freeiconspng.com/uploads/push-pin-icon-15.png'
+          }
+        };
+		
+		
+		
+		
+	  var marker, i;
+	  var infowindow = new google.maps.InfoWindow();
+	  var locations = [
+      ['Bondi Beach', -33.890542, 151.274856, 4],
+      ['Coogee Beach', -33.923036, 151.259052, 5],
+      ['Cronulla Beach', -34.028249, 151.157507, 3],
+      ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+      ['Maroubra Beach', -33.950198, 151.259302, 1]
+    ];
+        var uluru = {lat: 4.176839, lng: 102.010572};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+		
+		
+		
+		
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFkkBDmZ-PqTaOlRdGoRaCHP3k5Uxx7XY&callback=initMap">
+    </script>
+  </body>
+</html>

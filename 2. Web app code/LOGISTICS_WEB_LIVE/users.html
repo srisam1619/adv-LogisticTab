@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Drivers | Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+	 <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+	 
+	 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyB4txr8p4SMSxJw1HjlekO529MBfV-gFMI"></script>
+	
+
+    <!-- Bootstrap Core Css -->
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Morris Chart Css-->
+    <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="css/themes/all-themes.css" rel="stylesheet" />
+	
+	
+	
+   <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="js/libs/angular.js"></script>
+	<script src="js/libs/angular-sanitize.js"></script>
+      <script src="js/libs/angular-route.js"></script>
+     <script src="js/libs/angular-ui-router.js"></script>
+    <script src="js/libs/ocLazyLoad.js"></script>
+    <script src="js/libs/ui-bootstrap.js"></script>
+    <script src="js/libs/ui-bootstrap-tpls-0.9.0.js"></script>
+    <script src="js/libs/angular-cookies.js"></script>
+
+<script src="js/libs/moment.js"></script>
+
+  
+
+
+
+<!-- angular js -->
+
+    <script src="js/config/app.js"></script>
+    <script src="js/services/util_factory.js" ></script>
+	<script src="js/ctrl/User_ctrl.js" ></script>
+
+</head>
+
+<body class="theme-purple"  ng-app="myApp" ng-controller="User_ctrl">
+<div class="loader" data-loadingss id="loadingss"><i class="fa fa-refresh fa-spin fa-fw"></i> Loading...</div>
+	<!-- Top Bar -->
+    <nav class="navbar bgheadergrate">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="index.html">ADVENTUS</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Call Search -->
+                    <li> <a href="login.html" style="text-decoration:none;" ><button class="btn-default btn"><i class="fa fa-hand-o-left" aria-hidden="true"></i>  &nbsp; logout</button></a></li>
+					
+					<li> <a href="users.html" style="text-decoration:none;" ><button class="btn-default btn"><i class="fa fa-id-card-o" aria-hidden="true"></i>  &nbsp; Drivers</button></a></li>
+					
+					<li> <a href="index.html" style="text-decoration:none;" ><button class="btn-default btn"><i class="fa fa-home" aria-hidden="true"></i>  &nbsp; Home</button></a></li>
+					
+                    <!-- #END# Call Search -->
+                    <!-- Notifications -->
+                    
+                    <!-- #END# Notifications -->
+                    <!-- Tasks -->
+                    
+                    <!-- #END# Tasks -->
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+	
+	<section class="content">
+        <div class="container-fluid">
+          
+				
+         
+            
+
+            <div class="row clearfix">
+                <!-- Task Info -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="header" style="height:60px;">
+                            <div class="col-lg-2 col-sm-3"><strong>Driver List : {{DriverList.length}}</strong></div>
+							 
+                            <div class="pull-right  col-lg-1" style="cursor:pointer;" ><button  ng-click="NewDriver();" class="btn-success btn">New Driver</button></div>
+                        </div>
+                        <div class="body" >
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="myTable">
+                                    <thead>
+                                        <tr style="background:#000f16;color:#FFFFFF">
+                                            <th>Id</th>
+                                            <th>Driver Name</th>
+                                            <th>User Name</th>
+											<th>Password</th>
+                                            <th>Contact Number</th>
+											<th>IsActive</th>
+											<th>Action</th>
+									 </tr>
+									 
+									 <tr style="background:#000f16;color:#FFFFFF">
+                                            <th><input class="form-control" ng-model="sText.Id" /></th>
+                                            <th><input class="form-control" ng-model="sText.DriverName" /></th>
+                                            <th><input class="form-control" ng-model="sText.UserName" /></th>
+											<th></th>
+                                            <th><input class="form-control" ng-model="sText.ContactNumber" /></th>
+											<th><select ng-model="sText.IsActive" class="form-control"  ><option value="1">Active</option><option value="0">InActive</option></select></th>
+												<th><button class="btn-default btn" ng-click="sText = undefined">Clear</button></th>
+									 </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="d in DriverList |  filter : sText | orderBy:d.Id">
+                                            <td>{{d.Id}}</td>
+                                            <td>{{d.DriverName}}</td>
+                                            <td>{{d.UserName}}</td>
+                                            <td>{{d.Password}}</td>
+                                            <td>{{d.ContactNumber}}</td>
+											<td><button class="btn-success btn" ng-if="d.IsActive=='1'"> Active</button>
+											<button class="btn-danger btn" ng-if="d.IsActive!='1'"> InActive</button></td>
+											
+											<td><button class="btn-info btn" ng-click="editUser(d);" ><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+											<button class="btn-danger btn" ng-click="DeleteDriver(d);" ng-confirm-click="Are you SURE you want to Deactivate?"><i class="fa fa-ban" aria-hidden="true"></i> Deactivate</button></td>
+										
+											
+                                        </tr>
+										<tr  ng-show="!DriverList.length">
+    <td colspan="12" style="color:#FF0000;" align="center">No Data Found..</td>
+	</tr>
+                                      
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #END# Task Info -->
+               
+            </div>
+			
+			
+        </div>
+    </section>
+</body>
+  <!-- Jquery Core Js -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+	<link href="css/jquery.orderable.css" rel="stylesheet">
+<!--<script src="js/jquery.mobile-1.4.5.js"></script>-->
+
+
+    <!-- Bootstrap Core Js -->
+    <script src="plugins/bootstrap/js/bootstrap.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+	<link href="https://code.jquery.com/ui/jquery-ui-git.css" rel="stylesheet" type="text/css" />
+	<script src="js/libs/jquery-ui-timepicker-addon.js"></script>
+	<script src="js/jquery.ui.touch-punch.min.js"></script>
+	
+
+
+
+
+  
+  
+
+<!-- Edit river Modal -->
+<div id="EditDriver" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-truck" aria-hidden="true"></i> Edit Driver Details</h4>
+      </div>
+      <div class="modal-body">
+        <table width="100%" border="0" cellspacing="5" class="table-striped table" cellpadding="5" >
+  <tr>
+    <td>Driver Name </td>
+    <td>&nbsp;</td>
+    <td><input type="text" ng-model="Edriver.DriverName" readonly style="background:#CCCCCC" id="DriverName"  class="form-control" /></td>
+  </tr>
+  <tr>
+    <td>User Name</td>
+    <td>&nbsp;</td>
+    <td><input type="text" ng-model="Edriver.UserName" readonly style="background:#CCCCCC" id="UserName"  class="form-control" /></td>
+  </tr>
+  <tr>
+    <td>Password:</td>
+    <td>&nbsp;</td>
+    <td><input type="text" ng-model="Edriver.Password" id="Password"  class="form-control" /></td>
+  </tr>
+  <tr>
+    <td>Status</td>
+    <td>&nbsp;</td>
+    <td><select ng-model="Edriver.IsActive" class="form-control"  ><option value="1">Active</option><option value="0">InActive</option></select></td>
+  </tr>
+  <tr>
+    <td>Contact Number</td>
+    <td>&nbsp;</td>
+    <td><input type="text" ng-model="Edriver.ContactNumber" id="ContactNumber" valid-number  class="form-control" /></td>
+  </tr>
+</table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn-success btn" ng-click="UpdateDriver();">Update</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- New Driver Modal -->
+<div id="NewDriver" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-truck" aria-hidden="true"></i>  Add New Driver Details</h4>
+      </div>
+      <div class="modal-body">
+        <table width="100%" border="0" cellspacing="5" class="table-striped table" cellpadding="5">
+  <tr>
+    <td>Driver Name </td>
+    <td>&nbsp;</td>
+    <td><select class="form-control" 
+	ng-options="item.DriverName as item.DriverName for item in PoPDriverList track by item.DriverId"
+	ng-model="newdriver.DriverName">
+	<option value="">-- select --</option>
+	</select></td>
+  </tr>
+  <tr>
+    <td>User Name</td>
+    <td>&nbsp;</td>
+    <td><input type="text" ng-model="newdriver.UserName" id="UserName"  class="form-control" /></td>
+  </tr>
+  <tr>
+    <td>Password:</td>
+    <td>&nbsp;</td>
+    <td><input type="Password" ng-model="newdriver.Password" id="Password"  class="form-control" /></td>
+  </tr>
+  <tr>
+    <td>Contact Number</td>
+    <td>&nbsp;</td>
+    <td><input type="text" ng-model="newdriver.ContactNumber" id="ContactNumber" valid-number  class="form-control" /></td>
+  </tr>
+</table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn-success btn" ng-click="SaveDriver();">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</html>
